@@ -1,0 +1,9 @@
+F:\.net project\Travel\Travel.IService\bin\Debug\netcoreapp3.1\Travel.IService.deps.json
+F:\.net project\Travel\Travel.IService\bin\Debug\netcoreapp3.1\Travel.IService.dll
+F:\.net project\Travel\Travel.IService\bin\Debug\netcoreapp3.1\Travel.IService.pdb
+F:\.net project\Travel\Travel.IService\obj\Debug\netcoreapp3.1\Travel.IService.csprojAssemblyReference.cache
+F:\.net project\Travel\Travel.IService\obj\Debug\netcoreapp3.1\Travel.IService.csproj.CoreCompileInputs.cache
+F:\.net project\Travel\Travel.IService\obj\Debug\netcoreapp3.1\Travel.IService.AssemblyInfoInputs.cache
+F:\.net project\Travel\Travel.IService\obj\Debug\netcoreapp3.1\Travel.IService.AssemblyInfo.cs
+F:\.net project\Travel\Travel.IService\obj\Debug\netcoreapp3.1\Travel.IService.dll
+F:\.net project\Travel\Travel.IService\obj\Debug\netcoreapp3.1\Travel.IService.pdb
