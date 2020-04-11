@@ -1,4 +1,0 @@
-F:\.net project\Travel\BuildingBlocks\Travel.Core\bin\Debug\netcoreapp3.1\Travel.Core.deps.json
-F:\.net project\Travel\BuildingBlocks\Travel.Core\bin\Debug\netcoreapp3.1\Travel.Core.dll
-F:\.net project\Travel\BuildingBlocks\Travel.Core\obj\Debug\netcoreapp3.1\Travel.Core.AssemblyInfoInputs.cache
-F:\.net project\Travel\BuildingBlocks\Travel.Core\obj\Debug\netcoreapp3.1\Travel.Core.AssemblyInfo.cs
