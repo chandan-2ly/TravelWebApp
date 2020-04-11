@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Travel.BusinessModels;
+using Travel.Core.Model;
 using Travel.IService;
 
 namespace Travel.Controllers
@@ -15,14 +16,16 @@ namespace Travel.Controllers
         {
             _authentication = authentication;
         }
-        [HttpPost]
-        [ProducesResponseType(200)]
-        public async Task<IActionResult> UserAuthentication(LoginUser loginUser)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _authentication.AuthenticateUser();
-            }
-        }
+        //[HttpPost]
+        //[ProducesResponseType(typeof(WebApiResponse), 200)]
+        //public async Task<IActionResult> UserAuthentication(LoginUser loginUser)
+        //{
+        //    var result = new WebApiResponse();
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        var result = await _authentication.AuthenticateUser(loginUser.Email, loginUser.Password);
+        //    }
+        //}
     }
 }
