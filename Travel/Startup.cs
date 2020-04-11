@@ -58,7 +58,7 @@ namespace Travel
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
                 //Inform swagger to use those XML Comments
-                c.IncludeXmlComments(xmlPath);
+                //c.IncludeXmlComments(xmlPath);
             });
 
         }

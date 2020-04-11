@@ -2,7 +2,7 @@
 
 namespace Travel.IRepository
 {
-    public class Class1
+    public interface IAuthenticateRepository
     {
     }
 }
