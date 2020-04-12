@@ -6,6 +6,6 @@ namespace Travel.IService
 {
     public interface IAuthenticateService
     {
-        Task<WebApiResponseModel> AuthenticateUser(string email, string password);
+        WebApiResponseModel AuthenticateUser(string email, string password);
     }
 }

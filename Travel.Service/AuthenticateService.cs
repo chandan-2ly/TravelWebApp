@@ -7,7 +7,7 @@ namespace Travel.Service
 {
     public class AuthenticateService : IAuthenticateService
     {
-        public Task<WebApiResponseModel> AuthenticateUser(string email, string password)
+        public WebApiResponseModel AuthenticateUser(string email, string password)
         {
             WebApiResponseModel response = new WebApiResponseModel();
             response.Message = "Hello Service Layer";
