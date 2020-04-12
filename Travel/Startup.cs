@@ -59,8 +59,11 @@ namespace Travel
 
                 //Inform swagger to use those XML Comments
                 //c.IncludeXmlComments(xmlPath);
+
             });
 
+            //DependencyInjection
+            services.AddDependencyInjection();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
