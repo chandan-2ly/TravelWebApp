@@ -13,15 +13,15 @@ namespace Travel.Core
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context)
-        {
-            if (context.Request.Path.ToString().Equals("/swagger/index.html"))
-            {
-                if (context.Request.QueryString.HasValue)
-                {
-                    if(V)
-                }
-            }
-        }
+        //public async Task Invoke(HttpContext context)
+        //{
+        //    if (context.Request.Path.ToString().Equals("/swagger/index.html"))
+        //    {
+        //        if (context.Request.QueryString.HasValue)
+        //        {
+        //            if(V)
+        //        }
+        //    }
+        //}
     }
 }

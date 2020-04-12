@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BuildingBlocks\Travel.Core\Travel.Core.csproj" />
     <ProjectReference Include="..\Travel.IService\Travel.IService.csproj" />
   </ItemGroup>
 
