@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Travel.Entities;
 
 namespace Travel
 {
@@ -26,6 +31,12 @@ namespace Travel
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<TravelContext>(op =>
+            {
+                op.UseSqlServer(Configuration["ConnectionString"], 
+                    optionBuilder => optionBuilder.MigrationsAssembly("Travel"));
+            });
+
             services.AddControllersWithViews();
 
             services.AddSwaggerGen(c => {
@@ -60,6 +71,18 @@ namespace Travel
                 //Inform swagger to use those XML Comments
                 //c.IncludeXmlComments(xmlPath);
 
+            });
+
+            //Authentication schema configuration - Bearer
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
             });
 
             //DependencyInjection
