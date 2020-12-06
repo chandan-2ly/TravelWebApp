@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BuildingBlocks\Travel.Core\Travel.Core.csproj" />
+    <ProjectReference Include="..\Travel.IRepository\Travel.IRepository.csproj" />
     <ProjectReference Include="..\Travel.IService\Travel.IService.csproj" />
   </ItemGroup>
 

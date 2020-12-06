@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Travel.BusinessModels
+namespace Travel.Core.BusinessModels
 {
     /// <summary>
     /// This API is used to handle login requests.
     /// </summary>
-    public class LoginUser
+    public class AuthenticateRequest
     {
         /// <summary>
         /// Email
@@ -29,4 +29,5 @@ namespace Travel.BusinessModels
         /// </summary>
         public string Token { get; set; }
     }
+
 }

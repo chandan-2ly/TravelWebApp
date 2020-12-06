@@ -2,7 +2,7 @@
 
 namespace Travel.Core.Model
 {
-    public class WebApiResponseModel
+    public class ListResponseModel
     {
         public List<dynamic> Items { get; set; }
         public string Message { get; set; }

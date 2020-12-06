@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuildingBlocks\Travel.Core\Travel.Core.csproj" />
+    <ProjectReference Include="..\Travel.Entities\Travel.Entities.csproj" />
   </ItemGroup>
 
 </Project>
