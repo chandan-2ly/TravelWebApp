@@ -7,5 +7,6 @@ namespace Travel.Core.BusinessModels
     public class MessageConstants
     {
         public const string InvalidCredential = "Incorrect Email or Password";
+        public const string SignUpSuccessfull = "Registration Successfull";
     }
 }

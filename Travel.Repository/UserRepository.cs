@@ -26,14 +26,23 @@ namespace Travel.Repository
         #region methods
         public int RegisterUser(RegisterUser registerUser)
         {
-            var entity = new User { FullName = registerUser.FirstName, Email = registerUser.Email, Password = registerUser.Password, Salt = registerUser.Salt };
+            var entity = new User { 
+                FirstName = registerUser.FirstName, 
+                Email = registerUser.Email, 
+                Password = registerUser.Password, 
+                Salt = registerUser.Salt,
+                Role = registerUser.Role,
+                LastName = registerUser.LastName,
+                CreatedOn = DateTime.UtcNow,
+                ModifiedOn = DateTime.UtcNow
+            };
             _travelEntities.Add(entity);
             var status = _travelEntities.SaveChanges();
 
             return status;
         }
 
-        public async Task<User> GetUser(string emailId)
+        public async Task<User> GetUserByEmail(string emailId)
         {
             return await _travelEntities.Users.FirstOrDefaultAsync(x => x.Email == emailId);
         }

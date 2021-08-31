@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Travel.Core.BusinessModels;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Travel.Service
 {
@@ -16,12 +20,14 @@ namespace Travel.Service
         #region variables
         private readonly IUserRepository _userRepository;
         private readonly int _saltByteSize = 32;
+        private IConfiguration _configuration;
         #endregion
 
         #region constructor
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
+            _configuration = configuration;
         }
         #endregion
         public int RegisterUser(RegisterUser registerUser)
@@ -55,32 +61,67 @@ namespace Travel.Service
 
         public async Task<AuthenticateResponse> AuthenticateUser(string email, string password)
         {
-            //ListResponseModel response = new ListResponseModel();
             List<ResponseModel> errorMessage = new List<ResponseModel>();
             AuthenticateResponse response = new AuthenticateResponse();
             
-            //response.Message = "Hello Service Layer";
-            //return response;
-            var userDetails = await _userRepository.GetUser(email);
+            var userDetails = await _userRepository.GetUserByEmail(email);
 
-            if (userDetails.Id == Guid.Empty)
+            if (userDetails == null || userDetails.Id == Guid.Empty || userDetails.IsDeleted)
             {
                 errorMessage.Add(new ResponseModel { IsSuccess = false, Message = MessageConstants.InvalidCredential });
             }
-
-            //compare the password
-            var inputPassword = GenerateHash(password, userDetails.Salt);
-            if (inputPassword != userDetails.Password)
+            else
             {
-                errorMessage.Add(new ResponseModel { IsSuccess = false, Message = MessageConstants.InvalidCredential });
+                //compare the password
+                var inputPassword = GenerateHash(password, userDetails.Salt);
+                if (inputPassword != userDetails.Password)
+                {
+                    errorMessage.Add(new ResponseModel { IsSuccess = false, Message = MessageConstants.InvalidCredential });
+                }
             }
 
             if(errorMessage.Count > 0)
             {
                 response.ErrorList = errorMessage;
+                response.IsSuccess = false;
                 return response;
             }
-            return _userRepository.AuthenticateUser(email, password);
+            
+            //frame the response model
+            response.Token = GenerateJSONWebToken(userDetails.Email, userDetails.Id, ((Constants.UserRole)userDetails.Role).ToString());
+            response.IsSuccess = true;
+            response.UserId = userDetails.Id;
+            response.Role = userDetails.Role;
+            response.Email = userDetails.Email;
+            
+            return response;
+        }
+
+        private string GenerateJSONWebToken(string email, Guid userId, string role)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AppSettings:Token"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[] {
+            new Claim(ClaimTypes.Email, email),
+            new Claim(ClaimTypes.Sid, userId.ToString()),
+            new Claim(ClaimTypes.Role, role)
+            };
+
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Audience = "Travel",
+                Issuer = "Self",
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddMinutes(5),
+                SigningCredentials = credentials
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+                
+
+            return tokenHandler.WriteToken(token);
         }
     }
 }
