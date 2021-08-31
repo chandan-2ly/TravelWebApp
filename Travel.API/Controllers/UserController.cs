@@ -1,17 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Travel.Core.BusinessModels;
 using Travel.Core.Model;
 using Travel.IService;
-using static Travel.Core.BusinessModels.Constants;
 
-namespace Travel.Controllers
+namespace Travel.API.Controllers
 {
-    [Route("api/v1/User")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -27,14 +22,7 @@ namespace Travel.Controllers
         #endregion
 
         #region methods
-        [HttpGet]
-        [Route("TestData")]
-        [ProducesResponseType(200)]
-        public IActionResult GetTestData()
-        {
-            return Ok("Hello");
-        }
-
+        
         /// <summary>
         /// Api used for registration of User
         /// </summary>
@@ -81,7 +69,7 @@ namespace Travel.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         [Route("getTest")]
         [ProducesResponseType(typeof(AuthenticateResponse), 200)]
         [ProducesErrorResponseType(typeof(ResponseModel))]
@@ -89,6 +77,8 @@ namespace Travel.Controllers
         {
             return "hello";
         }
+
+
         #endregion
     }
 }

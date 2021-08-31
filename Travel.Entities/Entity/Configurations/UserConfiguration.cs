@@ -15,7 +15,7 @@ namespace Travel.Entities.Entity.Configurations
             
 
             //Properties
-            builder.Property(e => e.FullName);
+            builder.Property(e => e.FirstName);
             builder
                 .HasIndex(e => e.Email)
                 .IsUnique();
@@ -23,6 +23,13 @@ namespace Travel.Entities.Entity.Configurations
 
             builder.Property(e => e.Password);
             builder.Property(e => e.Salt);
+            builder.Property(e => e.LastName);
+            builder.Property(e => e.Role);
+            builder.Property(e => e.Address);
+            builder.Property(e => e.CreatedOn);
+            builder.Property(e => e.ModifiedOn);
+            builder.Property(e => e.IsDeleted);
+            builder.Property(e => e.IsDisabled);
         }
     }
 }
