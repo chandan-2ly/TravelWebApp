@@ -30,6 +30,8 @@ namespace Travel.Entities.Entity.Configurations
             builder.Property(e => e.ModifiedOn);
             builder.Property(e => e.IsDeleted);
             builder.Property(e => e.IsDisabled);
+            builder.Property(e => e.CreatedBy);
+            builder.Property(e => e.ModifiedBy);
         }
     }
 }
