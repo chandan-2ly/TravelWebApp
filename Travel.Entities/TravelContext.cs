@@ -18,10 +18,24 @@ namespace Travel.Entities
         {
             modelBuilder.ApplyConfiguration<User>(new UserConfiguration());
             modelBuilder.ApplyConfiguration <UserRole>(new UserRoleConfiguration());
+            modelBuilder.ApplyConfiguration<Booking>(new BookingConfiguration());
+            modelBuilder.ApplyConfiguration<Counter>(new CounterConfiguration());
+            modelBuilder.ApplyConfiguration<Driver>(new DriverConfigration());
+            modelBuilder.ApplyConfiguration<Passenger>(new PassengerConfiguration());
+            modelBuilder.ApplyConfiguration<Slot>(new SlotConfiguration());
+            modelBuilder.ApplyConfiguration<Transaction>(new TransactionConfiguration());
+            modelBuilder.ApplyConfiguration<Traveller>(new TravellerConfiguration());
         }
 
         //Entities
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Counter> Counters { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
+        public DbSet<Passenger> Passengers { get; set; }
+        public DbSet<Slot> Slots { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Traveller> Travellers { get; set; }
     }
 }

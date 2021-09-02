@@ -10,9 +10,7 @@ namespace Travel.Entities.Entity
         public string LastName { get; set; }
         public string ContactNo { get; set; }
         public string Email { get; set; }
-        [JsonIgnore]
         public string Password { get; set; }
-        [JsonIgnore]
         public string Salt { get; set; }
         public int Role { get; set; }
         public string Address { get; set; }

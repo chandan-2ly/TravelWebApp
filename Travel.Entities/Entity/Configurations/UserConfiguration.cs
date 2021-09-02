@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Travel.Entities.Entity.Configurations
 {
@@ -30,8 +27,6 @@ namespace Travel.Entities.Entity.Configurations
             builder.Property(e => e.ModifiedOn);
             builder.Property(e => e.IsDeleted);
             builder.Property(e => e.IsDisabled);
-            builder.Property(e => e.CreatedBy);
-            builder.Property(e => e.ModifiedBy);
         }
     }
 }

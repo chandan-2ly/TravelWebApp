@@ -16,5 +16,7 @@ namespace Travel.Entities.Entity
         public string BookingType { get; set; }
         public string Status { get; set; }
         public bool IsCancelled { get; set; }
+        public Guid CreatedBy { get; set; }
+        public Guid ModifiedBy { get; set; }
     }
 }

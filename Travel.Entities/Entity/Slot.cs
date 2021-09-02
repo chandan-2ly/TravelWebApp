@@ -11,6 +11,10 @@ namespace Travel.Entities.Entity
         public string Time { get; set; }
         public Guid DriverId { get; set; }
         public bool IsAvailable { get; set; }
+        public string Source { get; set; }
+        public string Destination { get; set; }
+        public Guid CreatedBy { get; set; }
+        public Guid ModifiedBy { get; set; }
 
     }
 }
