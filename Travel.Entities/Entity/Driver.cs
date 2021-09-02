@@ -14,6 +14,8 @@ namespace Travel.Entities.Entity
         public string Province { get; set; }
         public string ContactNo { get; set; }
         public string LicenseNumber { get; set; }
-        public DateTime ValidUpto { get; set; }
+        public DateTime LicenseValidity { get; set; }
+        public Guid CreatedBy { get; set; }
+        public Guid ModifiedBy { get; set; }
     }
 }
