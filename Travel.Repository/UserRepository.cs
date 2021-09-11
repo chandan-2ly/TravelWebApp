@@ -44,13 +44,51 @@ namespace Travel.Repository
 
         public async Task<User> GetUserByEmail(string emailId)
         {
-            return await _travelEntities.Users.FirstOrDefaultAsync(x => x.Email == emailId);
+            var data = await _travelEntities.Users
+                .FirstOrDefaultAsync(x => x.Email.ToLower() == emailId.ToLower());
+            return data;
         }
 
-        public AuthenticateResponse AuthenticateUser(string email, string password)
+        public async Task<UserDetails> GetUserById(Guid id)
         {
-            var result = new AuthenticateResponse();
-            return result;
+            var user = await _travelEntities.Users
+                .FirstOrDefaultAsync(x => x.Id == id);
+            return new UserDetails() {
+                Id =  user.Id,
+                FirstName = user.FirstName,
+                ContactNo = user.ContactNo,
+                LastName = user.LastName,
+                Address = user.Address,
+                Province = user.Province,
+                Zone = user.Zone,
+                District = user.District,
+                Role = user.Role,
+                Email = user.Email
+            };
+        }
+
+        public async Task<bool> UpdateUserDetails(Guid id, UserDetails user)
+        {
+            var result = await _travelEntities.Users
+                .Where(x => x.Id == id)
+                .UpdateFromQueryAsync(x => new User
+                {
+                    FirstName = user.FirstName,
+                    ContactNo = user.ContactNo,
+                    LastName = user.LastName,
+                    Address = user.Address,
+                    Province = user.Province,
+                    Zone = user.Zone,
+                    District = user.District,
+                    ModifiedOn = DateTime.UtcNow,
+                });
+            return result > 0;
+        }
+
+        public async Task<bool> DeleteUserById(Guid id)
+        {
+            var result = await _travelEntities.Users.Where(x => x.Id == id).DeleteFromQueryAsync();
+            return result > 0;
         }
 
         #endregion

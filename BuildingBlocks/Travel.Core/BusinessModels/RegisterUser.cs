@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Travel.Core.BusinessModels
 {
@@ -16,10 +17,12 @@ namespace Travel.Core.BusinessModels
         /// </summary>
         [Required(ErrorMessage = "Please enter Password")]
         public string Password { get; set; }
+        [JsonIgnore]
         public string Salt { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [JsonIgnore]
         public int Role { get; set; }
     }
 }

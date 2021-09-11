@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net;
 using System.Threading.Tasks;
 using Travel.Core.BusinessModels;
 using Travel.Core.Model;
@@ -68,16 +70,35 @@ namespace Travel.API.Controllers
             return BadRequest("Something went wrong");
         }
 
-        [HttpPost]
+        [HttpGet("{id}", Name = "GetUserById")]
         //[Authorize(Roles = "Customer")]
-        [Route("getTest")]
-        [ProducesResponseType(typeof(AuthenticateResponse), 200)]
-        [ProducesErrorResponseType(typeof(ResponseModel))]
-        public string GetTest()
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> GetUserById(Guid id)
         {
-            return "hello";
+            var result = await _userService.GetUserById(id);
+            if(result != null)
+            {
+                return Ok(new JsonResult(result));
+            }
+            return NotFound("User not found.");
         }
 
+        [HttpPut("{id}", Name = "UpdateUserById")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult> UpdateUserDetails(Guid id, [FromBody] UserDetails user)
+        {
+            var result = await _userService.UpdateUserDetails(id, user);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}", Name = "DeleteUserById")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult> DeleteUserById(Guid id)
+        {
+            var result = await _userService.DeleteUserById(id);
+            return Ok(result);
+        }
 
         #endregion
     }

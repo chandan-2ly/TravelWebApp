@@ -38,27 +38,6 @@ namespace Travel.Service
             return _userRepository.RegisterUser(registerUser);
         }
 
-        private string GenerateSalt()
-        {
-            RNGCryptoServiceProvider rNGCryptoService = new RNGCryptoServiceProvider();
-            byte[] saltBytes = new byte[_saltByteSize];
-            rNGCryptoService.GetBytes(saltBytes);
-            byte[] salt = saltBytes;
-            return Convert.ToBase64String(salt);
-        }
-
-        private string GenerateHash(string password, string salt)
-        {
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-            password: password,
-            salt: Encoding.UTF32.GetBytes(salt),
-            prf: KeyDerivationPrf.HMACSHA256,
-            iterationCount: 10000,
-            numBytesRequested: 256 / 8));
-
-            return hashed;
-        }
-
         public async Task<AuthenticateResponse> AuthenticateUser(string email, string password)
         {
             List<ResponseModel> errorMessage = new List<ResponseModel>();
@@ -97,6 +76,42 @@ namespace Travel.Service
             return response;
         }
 
+        public async Task<UserDetails> GetUserById(Guid id)
+        {
+            return await _userRepository.GetUserById(id);
+        }
+
+        public async Task<bool> UpdateUserDetails(Guid id, UserDetails user)
+        {
+            return await _userRepository.UpdateUserDetails(id, user);
+        }
+
+        public async Task<bool> DeleteUserById(Guid id)
+        {
+            return await _userRepository.DeleteUserById(id);
+        }
+
+        private string GenerateSalt()
+        {
+            RNGCryptoServiceProvider rNGCryptoService = new RNGCryptoServiceProvider();
+            byte[] saltBytes = new byte[_saltByteSize];
+            rNGCryptoService.GetBytes(saltBytes);
+            byte[] salt = saltBytes;
+            return Convert.ToBase64String(salt);
+        }
+
+        private string GenerateHash(string password, string salt)
+        {
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: password,
+            salt: Encoding.UTF32.GetBytes(salt),
+            prf: KeyDerivationPrf.HMACSHA256,
+            iterationCount: 10000,
+            numBytesRequested: 256 / 8));
+
+            return hashed;
+        }
+
         private string GenerateJSONWebToken(string email, Guid userId, string role)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AppSettings:Token"]));
@@ -119,7 +134,7 @@ namespace Travel.Service
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-                
+
 
             return tokenHandler.WriteToken(token);
         }
