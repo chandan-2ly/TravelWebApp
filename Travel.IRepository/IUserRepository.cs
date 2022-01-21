@@ -10,7 +10,7 @@ namespace Travel.IRepository
     {
         int RegisterUser(RegisterUser registerUser);
         Task<User> GetUserByEmail(string emailId);
-        Task<UserDetails> GetUserById(Guid id);
+        Task<User> GetUserById(Guid id);
         Task<bool> UpdateUserDetails(Guid id, UserDetails user);
         Task<bool> DeleteUserById(Guid Id);
 

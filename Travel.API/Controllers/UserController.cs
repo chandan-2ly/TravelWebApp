@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace Travel.API.Controllers
                     return Ok(new ListResponseModel { Message = MessageConstants.SignUpSuccessfull });
                 }
             }
-            return BadRequest("Something went wrong");
+            return BadRequest(MessageConstants.SomethingWentWrong);
         }
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace Travel.API.Controllers
         }
 
         [HttpGet("{id}", Name = "GetUserById")]
-        //[Authorize(Roles = "Customer")]
+        //[Authorize]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetUserById(Guid id)

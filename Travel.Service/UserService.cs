@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
 
 namespace Travel.Service
 {
@@ -21,13 +22,15 @@ namespace Travel.Service
         private readonly IUserRepository _userRepository;
         private readonly int _saltByteSize = 32;
         private IConfiguration _configuration;
+        private readonly IMapper _mapper;
         #endregion
 
         #region constructor
-        public UserService(IUserRepository userRepository, IConfiguration configuration)
+        public UserService(IUserRepository userRepository, IConfiguration configuration, IMapper mapper)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _mapper = mapper;
         }
         #endregion
         public int RegisterUser(RegisterUser registerUser)
@@ -78,7 +81,8 @@ namespace Travel.Service
 
         public async Task<UserDetails> GetUserById(Guid id)
         {
-            return await _userRepository.GetUserById(id);
+            var data = await _userRepository.GetUserById(id);
+            return _mapper.Map<UserDetails>(data);
         }
 
         public async Task<bool> UpdateUserDetails(Guid id, UserDetails user)
