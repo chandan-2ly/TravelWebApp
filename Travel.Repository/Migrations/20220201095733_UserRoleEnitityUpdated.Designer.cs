@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Travel.Entities;
 
 namespace Travel.Migrations
 {
     [DbContext(typeof(TravelContext))]
-    partial class TravelContextModelSnapshot : ModelSnapshot
+    [Migration("20220201095733_UserRoleEnitityUpdated")]
+    partial class UserRoleEnitityUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -406,20 +408,6 @@ namespace Travel.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("e2953775-6486-461c-be87-f24fc00beea9"),
-                            CreatedOn = new DateTime(2022, 2, 1, 11, 30, 33, 514, DateTimeKind.Utc).AddTicks(9074),
-                            Email = "SuperAdmin@gmail.com",
-                            FirstName = "SuperAdmin",
-                            IsDeleted = false,
-                            IsDisabled = false,
-                            Password = "SuperAdmin",
-                            Role = 4,
-                            Salt = "aetpzF9i/Jw0zzvVT6xvzbcHYJxtmLwxsJ0jObB5dw4="
-                        });
                 });
 
             modelBuilder.Entity("Travel.Entities.Entity.UserRole", b =>
@@ -439,32 +427,6 @@ namespace Travel.Migrations
                     b.HasKey("RoleId");
 
                     b.ToTable("UserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            RoleId = 1,
-                            Description = "End Customers",
-                            RoleName = "Customer"
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            Description = "Traveller Owners",
-                            RoleName = "Owner"
-                        },
-                        new
-                        {
-                            RoleId = 3,
-                            Description = "Traveller Owner Created Counters",
-                            RoleName = "Counter"
-                        },
-                        new
-                        {
-                            RoleId = 4,
-                            Description = "Super Admin Access",
-                            RoleName = "SuperAdmin"
-                        });
                 });
 #pragma warning restore 612, 618
         }

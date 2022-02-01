@@ -4,6 +4,7 @@ namespace Travel.Core.BusinessModels
 {
     public class CounterDetails
     {
+        public int Id { get; set; }
         public Guid AdminUserId { get; set; }
         public string CounterName { get; set; }
         public string Address { get; set; }

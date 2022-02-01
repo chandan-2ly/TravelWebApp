@@ -13,5 +13,6 @@ namespace Travel.IService
         Task<UserDetails> GetUserById(Guid id);
         Task<bool> UpdateUserDetails(Guid id, UserDetails user);
         Task<bool> DeleteUserById(Guid id);
+        Task<bool> HardDeleteUserById(Guid id);
     }
 }

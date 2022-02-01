@@ -8,9 +8,10 @@ namespace Travel.Core.BusinessModels
     {
         public enum UserRole
         {
-            Customer,
-            Owner,
-            Counter
+            Customer = 1,
+            Owner = 2,
+            Counter = 3,
+            SuperAdmin = 4
         }
     }
 }

@@ -31,6 +31,11 @@ namespace Travel.Service
             return await _counterRepository.DeleteCounter(id);
         }
 
+        public async Task<bool> HardDeleteCounter(int id)
+        {
+            return await _counterRepository.HardDeleteCounter(id);
+        }
+
         public async Task<CounterDetails> GetCounterById(int id)
         {
             var counterData =  await _counterRepository.GetCounterById(id);

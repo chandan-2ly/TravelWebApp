@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using static Travel.Core.BusinessModels.Constants;
 
 namespace Travel.Core.BusinessModels
 {
@@ -22,7 +23,8 @@ namespace Travel.Core.BusinessModels
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        [JsonIgnore]
+
+        [Range(1, 3, ErrorMessage = "Role must be between 1 and 3")]
         public int Role { get; set; }
     }
 }

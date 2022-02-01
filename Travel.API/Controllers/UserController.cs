@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Travel.API.Filters;
 using Travel.Core.BusinessModels;
 using Travel.Core.Model;
 using Travel.IService;
 
 namespace Travel.API.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/[controller]/[action]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -32,10 +33,9 @@ namespace Travel.API.Controllers
         /// <param name="registerUser"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("registerUser")]
         [ProducesResponseType(typeof(ListResponseModel), 200)]
         [ProducesErrorResponseType(typeof(ResponseModel))]
-        public IActionResult UserRegistration(RegisterUser registerUser)
+        public IActionResult RegisterUser(RegisterUser registerUser)
         {
             if (ModelState.IsValid)
             {
@@ -54,10 +54,9 @@ namespace Travel.API.Controllers
         /// <param name="loginUser"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("authenticateUser")]
         [ProducesResponseType(typeof(AuthenticateResponse), 200)]
         [ProducesErrorResponseType(typeof(ResponseModel))]
-        public async Task<IActionResult> UserAuthentication(AuthenticateRequest loginUser)
+        public async Task<IActionResult> AuthenticateUser(AuthenticateRequest loginUser)
         {
             if (ModelState.IsValid)
             {
@@ -71,10 +70,10 @@ namespace Travel.API.Controllers
             return BadRequest("Something went wrong");
         }
 
-        [HttpGet("{id}", Name = "GetUserById")]
-        //[Authorize]
+        [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [@Authorize("SuperAdmin")]
         public async Task<ActionResult> GetUserById(Guid id)
         {
             var result = await _userService.GetUserById(id);
@@ -85,19 +84,30 @@ namespace Travel.API.Controllers
             return NotFound("User not found.");
         }
 
-        [HttpPut("{id}", Name = "UpdateUserById")]
+        [HttpPut]
         [ProducesResponseType((int)HttpStatusCode.OK)]
+        [@Authorize("SuperAdmin", "Customer")]
         public async Task<ActionResult> UpdateUserDetails(Guid id, [FromBody] UserDetails user)
         {
             var result = await _userService.UpdateUserDetails(id, user);
             return Ok(result);
         }
 
-        [HttpDelete("{id}", Name = "DeleteUserById")]
+        [HttpPut]
         [ProducesResponseType((int)HttpStatusCode.OK)]
+        [@Authorize("SuperAdmin")]
         public async Task<ActionResult> DeleteUserById(Guid id)
         {
             var result = await _userService.DeleteUserById(id);
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [@Authorize("SuperAdmin")]
+        public async Task<ActionResult> HardDeleteUserById(Guid id)
+        {
+            var result = await _userService.HardDeleteUserById(id);
             return Ok(result);
         }
 

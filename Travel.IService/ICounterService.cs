@@ -11,5 +11,6 @@ namespace Travel.IService
         Task<bool> AddCounter(CounterDetails counterDetails);
         Task<bool> UpdateCounter(int id, CounterDetails counterDetails);
         Task<bool> DeleteCounter(int id);
+        Task<bool> HardDeleteCounter(int id);
     }
 }

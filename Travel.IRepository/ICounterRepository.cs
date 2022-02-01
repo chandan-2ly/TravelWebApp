@@ -11,5 +11,6 @@ namespace Travel.IRepository
         Task<bool> AddCounter(Counter counterDetails);
         Task<bool> UpdateCounter(int id, Counter counterDetails);
         Task<bool> DeleteCounter(int id);
+        Task<bool> HardDeleteCounter(int id);
     }
 }

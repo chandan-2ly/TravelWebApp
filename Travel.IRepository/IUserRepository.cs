@@ -13,6 +13,7 @@ namespace Travel.IRepository
         Task<User> GetUserById(Guid id);
         Task<bool> UpdateUserDetails(Guid id, UserDetails user);
         Task<bool> DeleteUserById(Guid Id);
+        Task<bool> HardDeleteUserById(Guid Id);
 
     }
 }

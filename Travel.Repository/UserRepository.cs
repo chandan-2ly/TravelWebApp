@@ -32,8 +32,7 @@ namespace Travel.Repository
                 Salt = registerUser.Salt,
                 Role = registerUser.Role,
                 LastName = registerUser.LastName,
-                CreatedOn = DateTime.UtcNow,
-                ModifiedOn = DateTime.UtcNow
+                CreatedOn = DateTime.UtcNow
             };
             _travelContext.Add(entity);
             var status = _travelContext.SaveChanges();
@@ -86,6 +85,18 @@ namespace Travel.Repository
         }
 
         public async Task<bool> DeleteUserById(Guid id)
+        {
+            var result = await _travelContext.Users
+                .Where(x => x.Id == id)
+                .UpdateFromQueryAsync(x => new User
+                {
+                    IsDeleted = true,
+                    ModifiedOn = DateTime.UtcNow
+                });
+            return result > 0;
+        }
+
+        public async Task<bool> HardDeleteUserById(Guid id)
         {
             var user = await _travelContext.Users
                 .FirstOrDefaultAsync(x => x.Id == id);

@@ -24,6 +24,7 @@ namespace Travel.Repository
 
         public async Task<bool> AddCounter(Counter counterDetails)
         {
+            counterDetails.CreatedOn = DateTime.Now;
             _travelContext.Add(counterDetails);
             var result = await _travelContext.SaveChangesAsync();
             
@@ -32,8 +33,17 @@ namespace Travel.Repository
 
         public async Task<bool> DeleteCounter(int id)
         {
+            var result = await _travelContext.Counters
+                .Where(x => x.Id == id)
+                .UpdateFromQueryAsync(y => new Counter { IsDeleted = true, ModifiedOn = DateTime.UtcNow });
+
+            return result > 0;
+        }
+
+        public async Task<bool> HardDeleteCounter(int id)
+        {
             var data = await GetCounterById(id);
-            if(data != null)
+            if (data != null)
             {
                 _travelContext.Counters.Remove(data);
                 var result = await _travelContext.SaveChangesAsync();
@@ -58,10 +68,18 @@ namespace Travel.Repository
 
         public async Task<bool> UpdateCounter(int id, Counter counterDetails)
         {
-            var counter = await GetCounterById(id);
-            _travelContext.Entry(counter).State = EntityState.Modified;
-            var result = await _travelContext.SaveChangesAsync();
-                
+            var result = await _travelContext.Counters
+                .Where(x => x.Id == id)
+                .UpdateFromQueryAsync(x => new Counter
+                {
+                    CounterName = counterDetails.CounterName,
+                    Address = counterDetails.Address,
+                    District = counterDetails.District,
+                    Zone = counterDetails.Zone,
+                    Province = counterDetails.Province,
+                    ContactNo = counterDetails.ContactNo,
+                    ModifiedOn = DateTime.UtcNow,
+                });
             return result > 0;
         }
     }
