@@ -1,25 +1,24 @@
-﻿using System;
-using Travel.Core.Model;
-using Travel.IRepository;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Travel.Core.BusinessModels;
 using Travel.Entities;
 using Travel.Entities.Entity;
-using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Travel.Core.BusinessModels;
+using Travel.IRepository;
 
 namespace Travel.Repository
 {
     public class UserRepository : IUserRepository
     {
         #region variables
-        private readonly TravelContext _travelEntities;
+        private readonly TravelContext _travelContext;
         #endregion
 
         #region constructor
         public UserRepository(TravelContext travelContext)
         {
-            _travelEntities = travelContext;
+            _travelContext = travelContext;
         }
         #endregion
 
@@ -33,24 +32,81 @@ namespace Travel.Repository
                 Salt = registerUser.Salt,
                 Role = registerUser.Role,
                 LastName = registerUser.LastName,
-                CreatedOn = DateTime.UtcNow,
-                ModifiedOn = DateTime.UtcNow
+                CreatedOn = DateTime.UtcNow
             };
-            _travelEntities.Add(entity);
-            var status = _travelEntities.SaveChanges();
+            _travelContext.Add(entity);
+            var status = _travelContext.SaveChanges();
 
             return status;
         }
 
         public async Task<User> GetUserByEmail(string emailId)
         {
-            return await _travelEntities.Users.FirstOrDefaultAsync(x => x.Email == emailId);
+            var user = await _travelContext.Users
+                .FirstOrDefaultAsync(x => x.Email.ToLower() == emailId.ToLower());
+            return user;
         }
 
-        public AuthenticateResponse AuthenticateUser(string email, string password)
+        public async Task<User> GetUserById(Guid id)
         {
-            var result = new AuthenticateResponse();
-            return result;
+            var user = await _travelContext.Users
+                .FirstOrDefaultAsync(x => x.Id == id);
+            return user;
+            //return new UserDetails() {
+            //    Id =  user.Id,
+            //    FirstName = user.FirstName,
+            //    ContactNo = user.ContactNo,
+            //    LastName = user.LastName,
+            //    Address = user.Address,
+            //    Province = user.Province,
+            //    Zone = user.Zone,
+            //    District = user.District,
+            //    Role = user.Role,
+            //    Email = user.Email
+            //};
+        }
+
+        public async Task<bool> UpdateUserDetails(Guid id, UserDetails user)
+        {
+            var result = await _travelContext.Users
+                .Where(x => x.Id == id)
+                .UpdateFromQueryAsync(x => new User
+                {
+                    FirstName = user.FirstName,
+                    ContactNo = user.ContactNo,
+                    LastName = user.LastName,
+                    Address = user.Address,
+                    Province = user.Province,
+                    Zone = user.Zone,
+                    District = user.District,
+                    ModifiedOn = DateTime.UtcNow,
+                });
+            return result > 0;
+        }
+
+        public async Task<bool> DeleteUserById(Guid id)
+        {
+            var result = await _travelContext.Users
+                .Where(x => x.Id == id)
+                .UpdateFromQueryAsync(x => new User
+                {
+                    IsDeleted = true,
+                    ModifiedOn = DateTime.UtcNow
+                });
+            return result > 0;
+        }
+
+        public async Task<bool> HardDeleteUserById(Guid id)
+        {
+            var user = await _travelContext.Users
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (user != null)
+            {
+                _travelContext.Users.Remove(user);
+                var result = await _travelContext.SaveChangesAsync();
+                return result > 0;
+            }
+            return false;
         }
 
         #endregion

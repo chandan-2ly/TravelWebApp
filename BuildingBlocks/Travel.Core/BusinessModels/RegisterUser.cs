@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using static Travel.Core.BusinessModels.Constants;
 
 namespace Travel.Core.BusinessModels
 {
@@ -16,10 +18,13 @@ namespace Travel.Core.BusinessModels
         /// </summary>
         [Required(ErrorMessage = "Please enter Password")]
         public string Password { get; set; }
+        [JsonIgnore]
         public string Salt { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        [Range(1, 3, ErrorMessage = "Role must be between 1 and 3")]
         public int Role { get; set; }
     }
 }

@@ -7,6 +7,7 @@ namespace Travel.Entities
 {
     public class TravelContext : DbContext
     {
+        public TravelContext() { }
         public TravelContext(DbContextOptions<TravelContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

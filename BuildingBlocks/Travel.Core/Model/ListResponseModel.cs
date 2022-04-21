@@ -4,7 +4,7 @@ namespace Travel.Core.Model
 {
     public class ListResponseModel
     {
-        public List<dynamic> Items { get; set; }
+        public dynamic Items { get; set; }
         public string Message { get; set; }
         public dynamic TotalRecords { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Travel.Core.BusinessModels;
 using Travel.Core.Model;
 using Travel.Entities.Entity;
@@ -7,8 +8,12 @@ namespace Travel.IRepository
 {
     public interface IUserRepository
     {
-        public int RegisterUser(RegisterUser registerUser);
-        public Task<User> GetUserByEmail(string EmailId);
-        AuthenticateResponse AuthenticateUser(string email, string password);
+        int RegisterUser(RegisterUser registerUser);
+        Task<User> GetUserByEmail(string emailId);
+        Task<User> GetUserById(Guid id);
+        Task<bool> UpdateUserDetails(Guid id, UserDetails user);
+        Task<bool> DeleteUserById(Guid Id);
+        Task<bool> HardDeleteUserById(Guid Id);
+
     }
 }

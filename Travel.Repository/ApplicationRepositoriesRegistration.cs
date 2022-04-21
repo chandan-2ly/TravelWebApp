@@ -17,6 +17,7 @@ namespace Travel.Repository
             });
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICounterRepository, CounterRepository>();
         }
     }
 }
